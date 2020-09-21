@@ -29,6 +29,8 @@ if __name__ == "__main__":
     url = "rtsp://admin:aimall2018!@192.168.1.231"
 
     inp_src = video_path
+    # inp_src = camera_id
+    # inp_src = url
     for frame in get_frame(inp_src):  # 关键字yield使得get_frame变成一个迭代器(generator)
         """
         你可以在此处对frame进行处理
