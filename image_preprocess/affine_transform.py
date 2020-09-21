@@ -1,26 +1,27 @@
 import cv2
 import numpy as np
 
-img_path = "../data/image/perspective_view.jpg"
+img_path = "../data/image/signboard.jpg"
 img = cv2.imread(img_path)
-cv2.imshow("src_image", img)
-
-# 透视变换矩阵求解需要4组点
-dst_x0, dst_y0, dst_w, dst_h = 200, 100, 160, 500
-src_pts = [[244, 448], [362, 448], [474, 658], [66, 658]]
-dst_pts = [[dst_x0, dst_y0], [dst_x0+dst_w, dst_y0], [dst_x0+dst_w, dst_y0+dst_h], [dst_x0, dst_y0+dst_h]]
+cv2.imshow("origin_image", img)
 
 
-# 透视变化
+# 仿射变换矩阵求解需要3组点
+dst_x0, dst_y0, dst_w, dst_h = 100, 100, 160, 32
+src_pts = [[415, 177], [540, 291], [544, 377]]
+dst_pts = [[dst_x0, dst_y0], [dst_x0+dst_w, dst_y0], [dst_x0+dst_w, dst_y0+dst_h]]
+
+
+# 仿射变化
 src_pts = np.float32(src_pts)
 dst_pts = np.float32(dst_pts)
-perspective_matrix = cv2.getPerspectiveTransform(src_pts, dst_pts)
-transformed_img = cv2.warpPerspective(img, perspective_matrix, (512, 600))
+perspective_matrix = cv2.getAffineTransform(src_pts, dst_pts)
+transformed_img = cv2.warpAffine(img, perspective_matrix, (512, 256))
 
 
 # draw result
 src_h, src_w = img.shape[:2]
-pad_bottom = src_h - 600
+pad_bottom = src_h - 256
 transformed_img = cv2.copyMakeBorder(transformed_img,
                                      0, pad_bottom,  # 上下
                                      0, 0,  # 左右
