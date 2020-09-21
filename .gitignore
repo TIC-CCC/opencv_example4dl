@@ -1,0 +1,7 @@
+*.idea
+*.onnx
+*.rknn
+*.pyc
+*.tar
+*.gz
+__pycache__
